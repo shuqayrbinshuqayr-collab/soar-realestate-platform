@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم — الوسيط العقاري</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold2: #E8C96A;
+  --gold-dim: rgba(201,168,76,0.10);
+  --gold-border: rgba(201,168,76,0.22);
+  --bg: #080808;
+  --bg2: #101010;
+  --bg3: #161616;
+  --bg4: #1E1E1E;
+  --border: rgba(255,255,255,0.07);
+  --text: #F0E8D8;
+  --muted: #60584A;
+  --muted2: #8A8070;
+  --green: #3DAA6A;
+  --green-dim: rgba(61,170,106,0.10);
+  --red: #CC4444;
+  --red-dim: rgba(204,68,68,0.10);
+  --blue: #4A90D9;
+  --blue-dim: rgba(74,144,217,0.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--bg2);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  z-index: 100;
+}
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.logo-diamond-row {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+}
+.diamond {
+  width: 8px; height: 8px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+.logo-name { font-size: 16px; font-weight: 700; color: var(--text); }
+.logo-sub { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
+
+.sidebar-nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px; color: var(--muted2);
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+}
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active {
+  background: var(--gold-dim);
+  border-color: var(--gold-border);
+  color: var(--gold);
+}
+.nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+.nav-badge {
+  margin-right: auto;
+  background: var(--gold);
+  color: var(--bg);
+  border-radius: 8px;
+  font-size: 10px; font-weight: 700;
+  padding: 1px 7px;
+  min-width: 20px; text-align: center;
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--muted);
+}
+.sidebar-footer strong { color: var(--gold); display: block; margin-bottom: 2px; }
+
+/* ── Main ── */
+.main {
+  margin-right: 220px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Topbar ── */
+.topbar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-title { font-size: 15px; font-weight: 500; }
+.topbar-right { display: flex; align-items: center; gap: 14px; }
+.topbar-date { font-size: 12px; color: var(--muted); }
+.notification-btn {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; position: relative;
+}
+.notification-btn svg { width: 16px; height: 16px; stroke: var(--muted2); }
+.notif-dot {
+  position: absolute; top: 6px; left: 6px;
+  width: 7px; height: 7px;
+  background: var(--gold);
+  border-radius: 50%;
+  border: 1.5px solid var(--bg2);
+}
+.avatar {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: var(--gold);
+}
+
+/* ── Content ── */
+.content { padding: 28px; flex: 1; }
+
+/* ── Stats row ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+.stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 8px; }
+.stat-val { font-size: 28px; font-weight: 700; line-height: 1; }
+.stat-val.gold { color: var(--gold); }
+.stat-val.green { color: var(--green); }
+.stat-val.red { color: var(--red); }
+.stat-val.blue { color: var(--blue); }
+.stat-sub { font-size: 11px; color: var(--muted); margin-top: 5px; }
+
+/* ── Section header ── */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: 14px; font-weight: 500;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-title .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+
+/* filter tabs */
+.filter-tabs { display: flex; gap: 6px; }
+.tab {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--muted2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tab.active {
+  background: var(--gold-dim);
+  border-color: var(--gold-border);
+  color: var(--gold);
+}
+.tab:hover { color: var(--text); }
+
+/* ── Listing cards ── */
+.listings { display: flex; flex-direction: column; gap: 12px; }
+
+.listing-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.listing-card:hover { border-color: rgba(201,168,76,0.25); }
+.listing-card.approved { border-color: rgba(61,170,106,0.25); }
+.listing-card.rejected { opacity: 0.5; }
+
+.card-top {
+  padding: 18px 20px;
+  display: flex; align-items: flex-start; gap: 16px;
+}
+
+.card-thumb {
+  width: 72px; height: 72px;
+  border-radius: 8px;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  font-size: 24px;
+}
+
+.card-meta { flex: 1; min-width: 0; }
+.card-title-row {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+.card-name { font-size: 15px; font-weight: 500; }
+.card-badge {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 8px;
+  border: 1px solid;
+}
+.badge-pending { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
+.badge-approved { color: var(--green); border-color: rgba(61,170,106,0.3); background: var(--green-dim); }
+.badge-rejected { color: var(--red); border-color: rgba(204,68,68,0.3); background: var(--red-dim); }
+
+.card-location { font-size: 12px; color: var(--muted2); margin-bottom: 8px; }
+
+.card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag {
+  font-size: 11px; padding: 3px 10px;
+  border-radius: 6px;
+  background: var(--bg4); border: 1px solid var(--border);
+  color: var(--muted2);
+}
+.tag.price { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
+
+.card-right {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+  flex-shrink: 0;
+}
+.card-time { font-size: 11px; color: var(--muted); }
+
+/* AI screening result */
+.ai-check {
+  background: var(--bg3);
+  border-top: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px; color: var(--muted2);
+}
+.ai-icon { width: 18px; height: 18px; flex-shrink: 0; }
+.ai-pass { color: var(--green); }
+.ai-warn { color: var(--gold); }
+
+/* action row */
+.card-actions {
+  border-top: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 8px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; border: none;
+  transition: all 0.15s;
+}
+.btn-approve {
+  background: var(--green);
+  color: white;
+}
+.btn-approve:hover { background: #4DC87A; transform: translateY(-1px); }
+
+.btn-reject {
+  background: var(--red-dim);
+  color: var(--red);
+  border: 1px solid rgba(204,68,68,0.25);
+}
+.btn-reject:hover { background: rgba(204,68,68,0.2); }
+
+.btn-details {
+  background: var(--bg4);
+  color: var(--muted2);
+  border: 1px solid var(--border);
+}
+.btn-details:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+
+.btn-rega {
+  background: var(--gold);
+  color: var(--bg);
+  font-weight: 700;
+}
+.btn-rega:hover { background: var(--gold2); transform: translateY(-1px); }
+
+.btn-copy {
+  background: var(--blue-dim);
+  color: var(--blue);
+  border: 1px solid rgba(74,144,217,0.2);
+  font-size: 12px; padding: 6px 12px;
+}
+.btn-copy:hover { background: rgba(74,144,217,0.18); }
+.btn-copy.copied { background: var(--green-dim); color: var(--green); border-color: rgba(61,170,106,0.3); }
+
+.spacer { flex: 1; }
+
+/* ── Detail drawer ── */
+.drawer-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 200;
+  display: none;
+}
+.drawer-overlay.open { display: block; }
+
+.drawer {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 500px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  z-index: 201;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.drawer.open { transform: translateX(0); }
+
+.drawer-head {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.drawer-title { font-size: 16px; font-weight: 600; }
+.drawer-close {
+  width: 32px; height: 32px;
+  border-radius: 8px; border: 1px solid var(--border);
+  background: var(--bg3);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px; color: var(--muted2);
+}
+.drawer-close:hover { color: var(--text); }
+
+.drawer-body { flex: 1; overflow-y: auto; padding: 24px; }
+
+/* REGA data section */
+.rega-section {
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.rega-section-title {
+  font-size: 12px; letter-spacing: 0.12em; color: var(--gold);
+  font-weight: 600; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.rega-section-title svg { width: 14px; height: 14px; stroke: var(--gold); }
+
+.data-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+}
+.data-row:last-child { border-bottom: none; padding-bottom: 0; }
+.data-label { font-size: 12px; color: var(--muted2); }
+.data-val-row { display: flex; align-items: center; gap: 8px; }
+.data-val { font-size: 14px; font-weight: 500; direction: ltr; text-align: left; }
+
+/* other sections */
+.info-section { margin-bottom: 20px; }
+.info-section-title {
+  font-size: 11px; letter-spacing: 0.12em; color: var(--muted);
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.info-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.info-item {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+.info-item-label { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+.info-item-val { font-size: 14px; font-weight: 500; }
+
+/* Photos grid */
+.photos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.photo-slot {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+
+.drawer-foot {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ── Approve modal ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 300;
+  display: none;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  width: 420px;
+  text-align: center;
+}
+.modal-icon {
+  width: 56px; height: 56px;
+  border-radius: 50%; margin: 0 auto 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+}
+.modal-icon.green { background: var(--green-dim); border: 1px solid rgba(61,170,106,0.3); }
+.modal-icon.red { background: var(--red-dim); border: 1px solid rgba(204,68,68,0.3); }
+.modal h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.modal p { font-size: 13px; color: var(--muted2); line-height: 1.65; margin-bottom: 22px; }
+.modal-btns { display: flex; gap: 10px; }
+.modal-btns .btn { flex: 1; justify-content: center; }
+
+/* reject textarea */
+.reject-reason {
+  width: 100%; background: var(--bg3);
+  border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); font-family: 'Tajawal', sans-serif;
+  font-size: 13px; padding: 12px 14px; direction: rtl;
+  outline: none; resize: none; margin-bottom: 14px;
+}
+.reject-reason:focus { border-color: var(--red); }
+
+/* toast */
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 20px;
+  font-size: 13px; color: var(--text);
+  display: flex; align-items: center; gap: 8px;
+  z-index: 400; opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none; white-space: nowrap;
+}
+.toast.show { opacity: 1; }
+.toast-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* empty state */
+.empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+
+/* responsive */
+@media(max-width:900px){
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  .sidebar { display: none; }
+  .main { margin-right: 0; }
+  .drawer { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-diamond-row">
+      <div class="diamond"></div>
+      <span class="logo-name">المنصة العقارية</span>
+    </div>
+    <div class="logo-sub">لوحة تحكم الوسيط</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      الطلبات الواردة
+      <span class="nav-badge">3</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      العقارات المنشورة
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      المستأجرون
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      العقود
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      الإحصائيات
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <strong>شقير العلي</strong>
+    وسيط معتمد — الرياض
+  </div>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-title">الطلبات الواردة</div>
+    <div class="topbar-right">
+      <div class="topbar-date" id="dateDisplay"></div>
+      <div class="notification-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <div class="notif-dot"></div>
+      </div>
+      <div class="avatar">ش</div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">بانتظار المراجعة / Pending</div>
+        <div class="stat-val gold" id="stat-pending">—</div>
+        <div class="stat-sub">طلب جديد</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">تمت الموافقة / Approved</div>
+        <div class="stat-val green" id="stat-approved">—</div>
+        <div class="stat-sub">هذا الشهر</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">منشور / Published</div>
+        <div class="stat-val blue" id="stat-published">—</div>
+        <div class="stat-sub">عقار نشط</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">إجمالي الطلبات / Total</div>
+        <div class="stat-val" id="stat-total">—</div>
+        <div class="stat-sub">كل الطلبات</div>
+      </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="section-header">
+      <div class="section-title">
+        <span class="dot"></span>
+        قائمة الطلبات
+      </div>
+      <div class="filter-tabs">
+        <div class="tab active" onclick="filterCards('all',this)">الكل</div>
+        <div class="tab" onclick="filterCards('pending',this)">بانتظار الموافقة</div>
+        <div class="tab" onclick="filterCards('approved',this)">موافق عليها</div>
+      </div>
+    </div>
+
+    <!-- Listings: loaded from Supabase -->
+    <div class="listings" id="listingsContainer">
+      <div style="text-align:center;padding:60px 20px;color:var(--muted)" id="loadingState">
+        <div style="font-size:28px;margin-bottom:12px">⏳</div>
+        جاري تحميل الطلبات...
+        <br><span style="font-size:11px;margin-top:8px;display:block">Loading requests...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Drawer -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="drawer-title" id="drawerTitle">تفاصيل العقار</div>
+    <div class="drawer-close" onclick="closeDrawer()">×</div>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot"></div>
+</div>
+
+<!-- Approve Modal -->
+<div class="modal-overlay" id="approveModal">
+  <div class="modal">
+    <div class="modal-icon green">✓</div>
+    <h3>تأكيد الموافقة / Confirm Approval</h3>
+    <p>بعد موافقتك سيتحدث السجل في قاعدة البيانات فوراً.<br><small style="color:var(--muted2)">The record will be updated in the database immediately.</small></p>
+    <div class="modal-btns">
+      <button class="btn btn-approve" style="justify-content:center" onclick="confirmApprove()">نعم، وافق / Approve</button>
+      <button class="btn btn-details" onclick="closeModals()">إلغاء / Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal-overlay" id="rejectModal">
+  <div class="modal">
+    <div class="modal-icon red">✕</div>
+    <h3>سبب الرفض / Rejection Reason</h3>
+    <p>سيُحفظ السبب في قاعدة البيانات.<br><small style="color:var(--muted2)">Reason will be saved in the database.</small></p>
+    <textarea class="reject-reason" id="rejectReason" rows="3" placeholder="مثال: الصور غير واضحة / e.g. Photos are unclear"></textarea>
+    <div class="modal-btns">
+      <button class="btn btn-reject" style="justify-content:center;flex:1" onclick="confirmReject()">رفض / Reject</button>
+      <button class="btn btn-details" onclick="closeModals()">إلغاء / Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="toast-dot" id="toastDot"></div>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+// ── Supabase config ─────────────────────────────────
+const SB_URL = 'https://pmmzzseankkvxohqiziq.supabase.co';
+const SB_KEY = 'sb_publishable_hQfHU3maDadVjeAKAvbhPw_UNZ0Tzud';
+
+const headers = {
+  'Authorization': `Bearer ${SB_KEY}`,
+  'apikey': SB_KEY,
+  'Content-Type': 'application/json'
+};
+
+// ── State ────────────────────────────────────────────
+let allProperties = [];
+let currentId = null;
+let currentFilter = 'all';
+
+// ── Date display ─────────────────────────────────────
+document.getElementById('dateDisplay').textContent =
+  new Date().toLocaleDateString('ar-SA', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+// ── Fetch from Supabase ──────────────────────────────
+async function loadProperties() {
+  try {
+    const res = await fetch(
+      `${SB_URL}/rest/v1/properties?select=*&order=created_at.desc`,
+      { headers }
+    );
+    if (!res.ok) throw new Error('فشل تحميل البيانات');
+    allProperties = await res.json();
+    renderAll();
+    updateStats();
+  } catch (err) {
+    document.getElementById('loadingState').innerHTML = `
+      <div style="font-size:28px;margin-bottom:12px">⚠️</div>
+      <div style="color:var(--red)">فشل تحميل البيانات / Failed to load data</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px">${err.message}</div>
+      <button onclick="loadProperties()" style="margin-top:16px;padding:8px 20px;background:var(--gold);border:none;border-radius:8px;font-family:Tajawal,sans-serif;cursor:pointer;color:#000">إعادة المحاولة / Retry</button>
+    `;
+  }
+}
+
+// ── Update stats ─────────────────────────────────────
+function updateStats() {
+  const pending  = allProperties.filter(p => p.status === 'pending').length;
+  const approved = allProperties.filter(p => p.status === 'approved').length;
+  const published = allProperties.filter(p => p.status === 'published').length;
+  document.getElementById('stat-pending').textContent  = pending;
+  document.getElementById('stat-approved').textContent = approved;
+  document.getElementById('stat-published').textContent = published;
+  document.getElementById('stat-total').textContent = allProperties.length;
+  // Update sidebar badge
+  const badge = document.querySelector('.nav-badge');
+  if (badge) badge.textContent = pending;
+}
+
+// ── Render cards ─────────────────────────────────────
+function renderAll() {
+  const container = document.getElementById('listingsContainer');
+  const filtered = currentFilter === 'all'
+    ? allProperties
+    : allProperties.filter(p => p.status === currentFilter);
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="empty">
+        <div style="font-size:32px;margin-bottom:12px">📭</div>
+        لا توجد طلبات / No requests found
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(p => renderCard(p)).join('');
+}
+
+function timeAgo(dateStr) {
+  const diff = Math.floor((Date.now() - new Date(dateStr)) / 1000);
+  if (diff < 60) return 'الآن / Just now';
+  if (diff < 3600) return `قبل ${Math.floor(diff/60)} دقيقة / ${Math.floor(diff/60)}m ago`;
+  if (diff < 86400) return `قبل ${Math.floor(diff/3600)} ساعة / ${Math.floor(diff/3600)}h ago`;
+  return `قبل ${Math.floor(diff/86400)} يوم / ${Math.floor(diff/86400)}d ago`;
+}
+
+function statusBadge(status) {
+  const map = {
+    pending:   ['badge-pending',  'بانتظار الموافقة / Pending'],
+    approved:  ['badge-approved', 'موافق عليه / Approved'],
+    rejected:  ['badge-rejected', 'مرفوض / Rejected'],
+    published: ['badge-approved', 'منشور / Published'],
+  };
+  const [cls, label] = map[status] || ['badge-pending', status];
+  return `<span class="card-badge ${cls}">${label}</span>`;
+}
+
+function propEmoji(type) {
+  const map = { 'شقة':'🏢', 'فيلا':'🏠', 'دوبلكس':'🏗️', 'استوديو':'🏨', 'مكتب':'🏛️', 'أرض':'🌍' };
+  return map[type] || '🏠';
+}
+
+function renderCard(p) {
+  const photoCount = p.photos_urls ? p.photos_urls.length : 0;
+  const hasVideo   = p.video_url ? '🎬 فيديو ✓' : '';
+  const isApproved = p.status === 'approved' || p.status === 'published';
+  const isPending  = p.status === 'pending';
+
+  const actions = isPending ? `
+    <button class="btn btn-approve" onclick="openApprove('${p.id}')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      موافقة / Approve
+    </button>
+    <button class="btn btn-reject" onclick="openReject('${p.id}')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      رفض / Reject
+    </button>
+    <button class="btn btn-details" onclick="openDrawer('${p.id}')">التفاصيل / Details</button>
+  ` : isApproved ? `
+    <button class="btn btn-rega" onclick="openDrawer('${p.id}')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      بيانات الهيئة / REGA Data
+    </button>
+    <button class="btn btn-details" onclick="openDrawer('${p.id}')">التفاصيل / Details</button>
+  ` : `
+    <button class="btn btn-details" onclick="openDrawer('${p.id}')">التفاصيل / Details</button>
+  `;
+
+  return `
+  <div class="listing-card ${p.status === 'approved' ? 'approved' : ''} ${p.status === 'rejected' ? 'rejected' : ''}"
+       data-status="${p.status}" data-id="${p.id}">
+    <div class="card-top">
+      <div class="card-thumb">${propEmoji(p.property_type)}</div>
+      <div class="card-meta">
+        <div class="card-title-row">
+          <span class="card-name">${p.property_type || '—'} — ${p.district || '—'}، ${p.city || '—'}</span>
+          ${statusBadge(p.status)}
+        </div>
+        <div class="card-location">
+          الصك: ${p.deed_number || '—'} · جوال: ${p.owner_phone || '—'}
+        </div>
+        <div class="card-tags">
+          <span class="tag">${p.purpose || '—'}</span>
+          ${p.price ? `<span class="tag price">${Number(p.price).toLocaleString('ar-SA')} ريال</span>` : ''}
+          ${photoCount ? `<span class="tag">${photoCount} صور / photos</span>` : ''}
+          ${hasVideo ? `<span class="tag" style="color:var(--blue)">${hasVideo}</span>` : ''}
+        </div>
+      </div>
+      <div class="card-right">
+        <div class="card-time">${timeAgo(p.created_at)}</div>
+        <div style="font-size:10px;color:var(--muted)">${p.ref_number || ''}</div>
+      </div>
+    </div>
+    <div class="ai-check">
+      <svg class="ai-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      <span class="ai-pass">الفحص الآلي: اجتاز المعايير ✓ / AI check passed ✓</span>
+      <span style="margin-right:auto;font-size:11px;color:var(--muted)">
+        الهوية: ${p.owner_id_number ? p.owner_id_number.slice(0,4)+'×××××××' : '—'}
+      </span>
+    </div>
+    <div class="card-actions">
+      ${actions}
+      <div class="spacer"></div>
+      <div style="font-size:11px;color:var(--muted)">${p.ref_number || ''}</div>
+    </div>
+  </div>`;
+}
+
+// ── Filter ────────────────────────────────────────────
+function filterCards(status, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentFilter = status;
+  renderAll();
+}
+
+// ── Drawer ────────────────────────────────────────────
+function openDrawer(id) {
+  currentId = id;
+  const p = allProperties.find(x => x.id === id);
+  if (!p) return;
+
+  document.getElementById('drawerTitle').textContent =
+    `${p.property_type || '—'} — ${p.district || '—'}، ${p.city || '—'}`;
+
+  const fields = [
+    { label: 'رقم الصك / Deed No.', val: p.deed_number },
+    { label: 'رقم الهوية / ID No.', val: p.owner_id_number },
+    { label: 'تاريخ الميلاد / DOB', val: p.owner_dob },
+    { label: 'رقم الجوال / Phone', val: p.owner_phone },
+    { label: 'المدينة / City', val: p.city },
+    { label: 'الحي / District', val: p.district },
+    { label: 'السعر / Price', val: `${Number(p.price).toLocaleString('ar-SA')} ريال — ${p.price_period || ''}` },
+  ];
+
+  const regaHTML = fields.map(f => `
+    <div class="data-row">
+      <span class="data-label">${f.label}</span>
+      <div class="data-val-row">
+        <span class="data-val">${f.val || '—'}</span>
+        <button class="btn btn-copy" onclick="copyText('${f.val || ''}', this)">نسخ</button>
+      </div>
+    </div>`).join('');
+
+  const photoCount = p.photos_urls ? p.photos_urls.length : 0;
+  const photosHTML = p.photos_urls && p.photos_urls.length
+    ? p.photos_urls.slice(0,6).map(url =>
+        `<div class="photo-slot" style="overflow:hidden">
+          <img src="${url}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='📷'">
+        </div>`).join('')
+    : `<div style="color:var(--muted);font-size:12px;grid-column:1/-1">لا توجد صور / No photos</div>`;
+
+  document.getElementById('drawerBody').innerHTML = `
+    <div class="rega-section">
+      <div class="rega-section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        بيانات الهيئة العامة للعقار / REGA Contract Data
+      </div>
+      ${regaHTML}
+      <button class="btn btn-copy" style="width:100%;margin-top:12px;justify-content:center;padding:10px"
+        onclick="copyAllData('${id}', this)">
+        نسخ كل البيانات / Copy All
+      </button>
+    </div>
+    <div class="info-section">
+      <div class="info-section-title">معلومات العقار / Property Info</div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-item-label">النوع / Type</div><div class="info-item-val">${p.property_type || '—'}</div></div>
+        <div class="info-item"><div class="info-item-label">الغرض / Purpose</div><div class="info-item-val">${p.purpose || '—'}</div></div>
+        <div class="info-item"><div class="info-item-label">المدينة / City</div><div class="info-item-val">${p.city || '—'}</div></div>
+        <div class="info-item"><div class="info-item-label">الحي / District</div><div class="info-item-val">${p.district || '—'}</div></div>
+      </div>
+    </div>
+    ${p.video_url ? `
+    <div class="info-section">
+      <div class="info-section-title">فيديو العقار / Property Video</div>
+      <video src="${p.video_url}" controls style="width:100%;border-radius:8px;border:1px solid var(--border);max-height:220px"></video>
+    </div>` : ''}
+    <div class="info-section">
+      <div class="info-section-title">الصور / Photos (${photoCount})</div>
+      <div class="photos-grid">${photosHTML}</div>
+    </div>
+    ${p.reject_reason ? `
+    <div class="info-section">
+      <div class="info-section-title">سبب الرفض / Reject Reason</div>
+      <div style="font-size:13px;color:var(--red);padding:12px;background:var(--red-dim);border-radius:8px;border:1px solid rgba(204,68,68,0.2)">${p.reject_reason}</div>
+    </div>` : ''}
+  `;
+
+  const isApproved = p.status === 'approved' || p.status === 'published';
+  document.getElementById('drawerFoot').innerHTML = isApproved ? `
+    <a href="https://www.rega.gov.sa" target="_blank" class="btn btn-rega" style="flex:1;justify-content:center">
+      افتح موقع الهيئة / Open REGA
+    </a>
+    <button class="btn btn-details" onclick="closeDrawer()">إغلاق / Close</button>
+  ` : p.status === 'pending' ? `
+    <button class="btn btn-approve" style="flex:1;justify-content:center" onclick="closeDrawer();openApprove('${id}')">موافقة / Approve</button>
+    <button class="btn btn-reject" onclick="closeDrawer();openReject('${id}')">رفض / Reject</button>
+    <button class="btn btn-details" onclick="closeDrawer()">إغلاق / Close</button>
+  ` : `<button class="btn btn-details" onclick="closeDrawer()" style="flex:1;justify-content:center">إغلاق / Close</button>`;
+
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+}
+
+// ── Copy helpers ──────────────────────────────────────
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.textContent = 'تم ✓';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = 'نسخ'; }, 2000);
+  });
+}
+
+function copyAllData(id, btn) {
+  const p = allProperties.find(x => x.id === id);
+  if (!p) return;
+  const text = [
+    `رقم الصك: ${p.deed_number}`,
+    `رقم الهوية: ${p.owner_id_number}`,
+    `تاريخ الميلاد: ${p.owner_dob}`,
+    `رقم الجوال: ${p.owner_phone}`,
+    `المدينة: ${p.city}`,
+    `الحي: ${p.district}`,
+    `السعر: ${Number(p.price).toLocaleString('ar-SA')} ريال`,
+  ].join('\n');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.textContent = 'تم نسخ كل البيانات ✓ / All Copied!';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = 'نسخ كل البيانات / Copy All'; }, 2500);
+    showToast('تم النسخ — الصق في موقع الهيئة / Copied — paste in REGA', '#3DAA6A');
+  });
+}
+
+// ── Approve ───────────────────────────────────────────
+function openApprove(id) { currentId = id; document.getElementById('approveModal').classList.add('open'); }
+
+async function confirmApprove() {
+  closeModals();
+  try {
+    const res = await fetch(
+      `${SB_URL}/rest/v1/properties?id=eq.${currentId}`,
+      {
+        method: 'PATCH',
+        headers: { ...headers, 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ status: 'approved', approved_at: new Date().toISOString() })
+      }
+    );
+    if (!res.ok) throw new Error('فشل تحديث الحالة');
+    showToast('✓ تمت الموافقة وحُفظت في قاعدة البيانات / Approved & saved', '#3DAA6A');
+    await loadProperties();
+  } catch (err) {
+    showToast('خطأ: ' + err.message, '#CC4444');
+  }
+}
+
+// ── Reject ────────────────────────────────────────────
+function openReject(id) { currentId = id; document.getElementById('rejectModal').classList.add('open'); }
+
+async function confirmReject() {
+  const reason = document.getElementById('rejectReason').value.trim();
+  if (!reason) { document.getElementById('rejectReason').style.borderColor = '#CC4444'; return; }
+  closeModals();
+  try {
+    const res = await fetch(
+      `${SB_URL}/rest/v1/properties?id=eq.${currentId}`,
+      {
+        method: 'PATCH',
+        headers: { ...headers, 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ status: 'rejected', reject_reason: reason })
+      }
+    );
+    if (!res.ok) throw new Error('فشل تحديث الحالة');
+    document.getElementById('rejectReason').value = '';
+    showToast('✕ تم الرفض وحُفظ في قاعدة البيانات / Rejected & saved', '#CC4444');
+    await loadProperties();
+  } catch (err) {
+    showToast('خطأ: ' + err.message, '#CC4444');
+  }
+}
+
+function closeModals() {
+  document.getElementById('approveModal').classList.remove('open');
+  document.getElementById('rejectModal').classList.remove('open');
+}
+
+// ── Toast ─────────────────────────────────────────────
+function showToast(msg, color) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  document.getElementById('toastDot').style.background = color;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+// ── Close modals on overlay ───────────────────────────
+document.getElementById('approveModal').addEventListener('click', function(e){ if(e.target===this) closeModals(); });
+document.getElementById('rejectModal').addEventListener('click', function(e){ if(e.target===this) closeModals(); });
+
+// ── Auto-refresh every 30 seconds ────────────────────
+setInterval(loadProperties, 30000);
+
+// ── Init ──────────────────────────────────────────────
+loadProperties();
+</script>
+</body>
+</html>
